@@ -1,0 +1,25 @@
+{
+    "name": "saucenao",
+    "version": "1.0.0",
+    "main": "js/index.js",
+    "dependencies": {
+        "discord.js": "^14.11.0",
+        "dotenv": "^16.3.1",
+        "sagiri": "^3.4.0",
+        "saucenao": "file:",
+        "typescript": "^5.1.6"
+    },
+    "devDependencies": {
+        "@types/node": "^20.4.1"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc",
+        "prestart": "npm run build",
+        "start": "node ./js/index.js",
+        "pm2": "pm2 start ./js/index.js --name=\"SauceNAO\""
+    },
+    "author": "",
+    "license": "ISC",
+    "description": ""
+}
