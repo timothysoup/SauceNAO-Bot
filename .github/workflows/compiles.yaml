@@ -1,0 +1,17 @@
+name: compiles
+run-name: Checking that the project compiles after ${{ github.actor }}'s push
+on: [push]
+jobs:
+    compile:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v4
+            - name: Set up Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '22'
+            - name: Install dependencies
+              run: npm install
+            - name: Compile TypeScript
+              run: npx tsc --noEmit

@@ -14,10 +14,9 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "ts-node src/index.ts",
         "build": "tsc",
-        "prestart": "npm run build",
-        "start": "node ./js/index.js",
-        "pm2": "pm2 start ./js/index.js --name=\"SauceNAO\""
+        "start": "node ./js/index.js"
     },
     "author": "",
     "license": "ISC",

@@ -1,0 +1,28 @@
+name: ship
+run-name: Shipping ${{ github.actor }}'s changes
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+    REGISTRY: registry.timothysoup.dev
+    IMAGE_NAME: timothysoup/saucenao-bot:latest
+
+jobs:
+    ship:
+        name: ship image
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install Dependencies
+              run: npm install
+            - name: Build Application
+              run: npm run build
+            - name: Login
+              run: |
+                  echo ${{ secrets.CR_PWD }} | docker login ${{ env.REGISTRY }} -u ${{ secrets.CR_USER }} --password-stdin
+            - name: Build and Ship
+              run: |
+                  docker build --build-arg NODE_ENV=production . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                  docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}

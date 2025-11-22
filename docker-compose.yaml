@@ -1,0 +1,9 @@
+services:
+  saucenao-bot:
+    container_name: "saucenao-bot"
+    build: .
+    restart: on-failure
+    env_file:
+      - .env
+    networks:
+      - default

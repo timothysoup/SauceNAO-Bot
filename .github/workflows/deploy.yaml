@@ -1,0 +1,24 @@
+name: deploy
+run-name: ${{ github.triggering_actor }} is deploying to production
+on:
+    workflow_dispatch:
+
+env:
+    REGISTRY: registry.timothysoup.dev
+    IMAGE_NAME: timothysoup/saucenao-bot:latest
+
+jobs:
+    deploy:
+        name: deploy image
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Install SSH keys
+              run: |
+                  install -m 600 -D /dev/null ~/.ssh/id_rsa
+                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+                  ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+            - name: Connect and Pull
+              run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && echo ${{ secrets.CR_PWD }} | docker login ${{ env.REGISTRY }} -u ${{ secrets.CR_USER }} --password-stdin && docker compose pull && docker compose up -d && exit"
+            - name: Cleanup
+              run: rm -rf ~/.ssh
